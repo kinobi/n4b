@@ -1,0 +1,38 @@
+{
+  "name": "bebound/n4b",
+  "type": "library",
+  "description": "N4B PHP library",
+  "keywords": [
+    "Be-Bound",
+    "n4b"
+  ],
+  "homepage": "https://github.com/kinobi/n4b",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Lionel Brianto",
+      "email": "lbrianto@be-bound.com",
+      "homepage": "https://n4b.io/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "~7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0||~5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "N4B\\": "src/N4B"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "N4B\\": "tests/N4B"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  }
+}
