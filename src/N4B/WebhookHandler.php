@@ -4,15 +4,17 @@ namespace N4B;
 
 use Throwable;
 
-
 class WebhookHandler extends HandlerAbstract
 {
     protected $operationsMap = [];
 
     /**
-     * Handle a N4B request
+     * Handle a N4B request.
+     *
      * @param array $options
+     *
      * @throws Throwable
+     *
      * @internal param bool $authCheck
      * @internal param bool $debug
      */
@@ -20,7 +22,7 @@ class WebhookHandler extends HandlerAbstract
     {
         $options = array_merge([
             'authCheck' => true,
-            'debug' => false
+            'debug'     => false,
         ], $options);
 
         try {
@@ -33,7 +35,7 @@ class WebhookHandler extends HandlerAbstract
                 return; // This request doesn't concern this handler
             }
 
-            if ((boolean)$options['authCheck']) {
+            if ((bool) $options['authCheck']) {
                 $this->checkAuth();
             }
 
@@ -41,13 +43,13 @@ class WebhookHandler extends HandlerAbstract
                 throw new \Exception('BB_ERROR_METHOD_NOT_FOUND');
             }
 
-            $out = $this->operationsMap[$data['operation']]((array)$data['params'], $data['transport'],
+            $out = $this->operationsMap[$data['operation']]((array) $data['params'], $data['transport'],
                 $data['userId']);
             $this->sendResponse(['params' => $out]);
         } catch (Error $e) {
             $this->sendResponse(['error' => $e->getMessage()]);
         } catch (Throwable $e) {
-            if (!(boolean)$options['debug']) {
+            if (!(bool) $options['debug']) {
                 $this->sendResponse(['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR']);
             } else {
                 throw $e;
@@ -56,7 +58,8 @@ class WebhookHandler extends HandlerAbstract
     }
 
     /**
-     * Map a callable to an operation describes in the BeApp Manifest
+     * Map a callable to an operation describes in the BeApp Manifest.
+     *
      * @param $operation
      * @param callable $handler
      */
@@ -74,12 +77,13 @@ class WebhookHandler extends HandlerAbstract
         ) {
             throw new Error('BB_ERROR_AUTHORIZATION');
         }
+
         return true;
     }
 
     private function parseRequestBody()
     {
-        $data = json_decode(file_get_contents("php://input"), true);
+        $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) {
             throw new Error('BB_ERROR_REQUEST_REJECTED');
         }
@@ -90,10 +94,10 @@ class WebhookHandler extends HandlerAbstract
     private function sendResponse($out)
     {
         $response = json_encode($out);
-        header("Content-Type: application/json");
-        header("Cache-Control: no-cache, must-revalidate"); // No Cache: HTTP/1.1
-        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // No Cache: in the past
-        header("Content-Length: " . strlen($response));
+        header('Content-Type: application/json');
+        header('Cache-Control: no-cache, must-revalidate'); // No Cache: HTTP/1.1
+        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // No Cache: in the past
+        header('Content-Length: '.strlen($response));
         echo $response;
     }
 }

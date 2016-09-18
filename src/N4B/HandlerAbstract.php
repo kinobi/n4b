@@ -2,7 +2,6 @@
 
 namespace N4B;
 
-
 abstract class HandlerAbstract
 {
     protected $moduleName;
@@ -19,7 +18,8 @@ abstract class HandlerAbstract
     }
 
     /**
-     * Get the BeApp name
+     * Get the BeApp name.
+     *
      * @return string
      */
     public function getModuleName()
@@ -28,7 +28,8 @@ abstract class HandlerAbstract
     }
 
     /**
-     * Set the BeApp name
+     * Set the BeApp name.
+     *
      * @param string $moduleName
      */
     public function setModuleName($moduleName)
@@ -37,8 +38,9 @@ abstract class HandlerAbstract
     }
 
     /**
-     * Get the BeApp Id
-     * @return integer
+     * Get the BeApp Id.
+     *
+     * @return int
      */
     public function getModuleId()
     {
@@ -46,7 +48,8 @@ abstract class HandlerAbstract
     }
 
     /**
-     * Set the BeApp Id number
+     * Set the BeApp Id number.
+     *
      * @param mixed $moduleId
      */
     public function setModuleId($moduleId)
@@ -55,8 +58,9 @@ abstract class HandlerAbstract
     }
 
     /**
-     * Get the BeApp version number
-     * @return integer
+     * Get the BeApp version number.
+     *
+     * @return int
      */
     public function getModuleVersion()
     {
@@ -64,8 +68,9 @@ abstract class HandlerAbstract
     }
 
     /**
-     * Set the BeApp version number
-     * @param integer $moduleVersion
+     * Set the BeApp version number.
+     *
+     * @param int $moduleVersion
      */
     public function setModuleVersion($moduleVersion)
     {
@@ -73,7 +78,8 @@ abstract class HandlerAbstract
     }
 
     /**
-     * Get the module auth secret
+     * Get the module auth secret.
+     *
      * @return string
      */
     public function getModulePassword()
@@ -82,7 +88,8 @@ abstract class HandlerAbstract
     }
 
     /**
-     * Set the module auth secret
+     * Set the module auth secret.
+     *
      * @param string $modulePassword
      */
     public function setModulePassword($modulePassword)

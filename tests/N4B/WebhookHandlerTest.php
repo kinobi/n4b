@@ -2,7 +2,6 @@
 
 namespace N4B;
 
-
 class WebhookHandlerTest extends \PHPUnit_Framework_TestCase
 {
     private $beAppName = 'testApp';

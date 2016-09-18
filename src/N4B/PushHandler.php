@@ -2,7 +2,6 @@
 
 namespace N4B;
 
-
 class PushHandler extends HandlerAbstract
 {
     const N4B_URL_PATTERN = 'https://web.be-bound.com/n4bp/%s_%s/%s';
@@ -17,11 +16,13 @@ class PushHandler extends HandlerAbstract
     ];
 
     /**
-     * Send a push message through N4B
+     * Send a push message through N4B.
+     *
      * @param $operation
      * @param string|array $users
      * @param array $params
      * @param int $urgency
+     *
      * @return array
      */
     public function send($operation, $users, array $params = [], int $urgency = self::N4B_PUSH_URGENCY_BEBOUND_ONLY)
@@ -48,7 +49,7 @@ class PushHandler extends HandlerAbstract
                 'operation' => $operation,
                 'userId' => $users,
                 'params' => $params,
-                'urgency' => $urgency
+                'urgency' => $urgency,
             ]
         );
 
@@ -70,6 +71,7 @@ class PushHandler extends HandlerAbstract
     private function generateBearer()
     {
         $bearer = sprintf('%s_%s:%s', $this->moduleName, $this->moduleId, $this->modulePassword);
+
         return base64_encode($bearer);
     }
 
