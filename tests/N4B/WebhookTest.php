@@ -44,9 +44,10 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Webhook
      */
-    private function intantiateWebhook():Webhook
+    private function intantiateWebhook()
     {
         $n4b = new Webhook($this->beAppName, $this->beAppId, $this->beAppVersion, $this->beAppSecret);
+
         return $n4b;
     }
 }

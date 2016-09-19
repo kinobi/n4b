@@ -22,7 +22,7 @@ class Webhook extends HandlerAbstract
     {
         $options = array_merge([
             'authCheck' => true,
-            'debug' => false,
+            'debug'     => false,
         ], $options);
 
         try {
@@ -35,7 +35,7 @@ class Webhook extends HandlerAbstract
                 return; // This request doesn't concern this handler
             }
 
-            if ((bool)$options['authCheck']) {
+            if ((bool) $options['authCheck']) {
                 $this->checkAuth();
             }
 
@@ -43,13 +43,13 @@ class Webhook extends HandlerAbstract
                 throw new \Exception('BB_ERROR_METHOD_NOT_FOUND');
             }
 
-            $out = $this->operationsMap[$data['operation']]((array)$data['params'], $data['transport'],
+            $out = $this->operationsMap[$data['operation']]((array) $data['params'], $data['transport'],
                 $data['userId']);
             $this->sendResponse(['params' => $out]);
         } catch (Error $e) {
             $this->sendResponse(['error' => $e->getMessage()]);
         } catch (Throwable $e) {
-            if (!(bool)$options['debug']) {
+            if (!(bool) $options['debug']) {
                 $this->sendResponse(['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR']);
             } else {
                 throw $e;
@@ -97,7 +97,7 @@ class Webhook extends HandlerAbstract
         header('Content-Type: application/json');
         header('Cache-Control: no-cache, must-revalidate'); // No Cache: HTTP/1.1
         header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // No Cache: in the past
-        header('Content-Length: ' . strlen($response));
+        header('Content-Length: '.strlen($response));
         echo $response;
     }
 }

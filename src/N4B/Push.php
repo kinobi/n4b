@@ -20,15 +20,15 @@ class Push extends HandlerAbstract
      *
      * @param $operation
      * @param string|array $users
-     * @param array $params
-     * @param int $urgency
+     * @param array        $params
+     * @param int          $urgency
      *
      * @return array
      */
     public function send($operation, $users, array $params = [], int $urgency = self::N4B_PUSH_URGENCY_BEBOUND_ONLY)
     {
         if (!is_array($users)) {
-            $users = (array)$users;
+            $users = (array) $users;
         }
 
         if (!in_array($urgency, static::$n4bAvailableUrgencies)) {
@@ -47,9 +47,9 @@ class Push extends HandlerAbstract
         $data = json_encode(
             [
                 'operation' => $operation,
-                'userId' => $users,
-                'params' => $params,
-                'urgency' => $urgency,
+                'userId'    => $users,
+                'params'    => $params,
+                'urgency'   => $urgency,
             ]
         );
 
@@ -58,7 +58,7 @@ class Push extends HandlerAbstract
                 'method' => 'POST',
                 'header' => [
                     'Content-type: application/json',
-                    'Authorization: Basic ' . $this->generateBearer(),
+                    'Authorization: Basic '.$this->generateBearer(),
                 ],
                 'content' => $data,
             ],
