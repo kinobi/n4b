@@ -22,7 +22,7 @@ class Webhook extends HandlerAbstract
     {
         $options = array_merge([
             'authCheck' => true,
-            'catchAll'     => true,
+            'catchAll'  => true,
         ], $options);
 
         try {
