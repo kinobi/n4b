@@ -70,8 +70,8 @@ class Webhook extends HandlerAbstract
 
     private function checkAuth()
     {
-        $auth_usr = $_SERVER ['PHP_AUTH_USER'] ?? null;
-        $auth_pwd = $_SERVER ['PHP_AUTH_PW'] ?? null;
+        $auth_usr = isset($_SERVER ['PHP_AUTH_USER']) ? $_SERVER ['PHP_AUTH_USER'] : null;
+        $auth_pwd = isset($_SERVER ['PHP_AUTH_PW']) ? $_SERVER ['PHP_AUTH_PW'] : null;
         if ($auth_usr != sprintf('%s_%s', $this->beappName,
                 $this->beappId) || $auth_pwd != $this->beappSecret
         ) {

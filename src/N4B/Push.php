@@ -25,7 +25,7 @@ class Push extends HandlerAbstract
      *
      * @return array
      */
-    public function send($operation, $users, array $params = [], int $urgency = self::N4B_PUSH_URGENCY_BEBOUND_ONLY)
+    public function send($operation, $users, array $params = [], $urgency = self::N4B_PUSH_URGENCY_BEBOUND_ONLY)
     {
         if (!is_array($users)) {
             $users = (array) $users;
@@ -42,7 +42,7 @@ class Push extends HandlerAbstract
         return json_decode($response, true);
     }
 
-    private function createContext($operation, array $users, array $params, int $urgency)
+    private function createContext($operation, array $users, array $params, $urgency)
     {
         $data = json_encode(
             [
