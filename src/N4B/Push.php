@@ -2,7 +2,7 @@
 
 namespace N4B;
 
-class PushHandler extends HandlerAbstract
+class Push extends HandlerAbstract
 {
     const N4B_URL_PATTERN = 'https://web.be-bound.com/n4bp/%s_%s/%s';
     const N4B_PUSH_URGENCY_BEBOUND_ONLY = 1;
@@ -54,15 +54,14 @@ class PushHandler extends HandlerAbstract
         );
 
         $opts = [
-            'http' =>
-                [
-                    'method' => 'POST',
-                    'header' => [
-                        'Content-type: application/json',
-                        'Authorization: Basic ' . $this->generateBearer()
-                    ],
-                    'content' => $data
-                ]
+            'http' => [
+                'method' => 'POST',
+                'header' => [
+                    'Content-type: application/json',
+                    'Authorization: Basic ' . $this->generateBearer(),
+                ],
+                'content' => $data,
+            ],
         ];
 
         return stream_context_create($opts);
@@ -70,13 +69,13 @@ class PushHandler extends HandlerAbstract
 
     private function generateBearer()
     {
-        $bearer = sprintf('%s_%s:%s', $this->moduleName, $this->moduleId, $this->modulePassword);
+        $bearer = sprintf('%s_%s:%s', $this->beappName, $this->beappId, $this->beappSecret);
 
         return base64_encode($bearer);
     }
 
     private function createUrl()
     {
-        return sprintf(static::N4B_URL_PATTERN, $this->moduleName, $this->moduleId, $this->moduleVersion);
+        return sprintf(static::N4B_URL_PATTERN, $this->beappName, $this->beappId, $this->beappVersion);
     }
 }

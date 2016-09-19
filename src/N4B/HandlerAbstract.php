@@ -4,17 +4,17 @@ namespace N4B;
 
 abstract class HandlerAbstract
 {
-    protected $moduleName;
-    protected $moduleId;
-    protected $moduleVersion;
-    protected $modulePassword;
+    protected $beappName;
+    protected $beappId;
+    protected $beappVersion;
+    protected $beappSecret;
 
-    public function __construct($moduleName, $moduleId, $moduleVersion, $modulePassword)
+    public function __construct($beappName, $beappId, $beappVersion, $beappSecret)
     {
-        $this->setModuleName($moduleName);
-        $this->setModuleId($moduleId);
-        $this->setModuleVersion($moduleVersion);
-        $this->setModulePassword($modulePassword);
+        $this->setBeappName($beappName);
+        $this->setBeappId($beappId);
+        $this->setBeappVersion($beappVersion);
+        $this->setBeappSecret($beappSecret);
     }
 
     /**
@@ -22,19 +22,19 @@ abstract class HandlerAbstract
      *
      * @return string
      */
-    public function getModuleName()
+    public function getBeappName()
     {
-        return $this->moduleName;
+        return $this->beappName;
     }
 
     /**
      * Set the BeApp name.
      *
-     * @param string $moduleName
+     * @param string $beappName
      */
-    public function setModuleName($moduleName)
+    public function setBeappName($beappName)
     {
-        $this->moduleName = $moduleName;
+        $this->beappName = $beappName;
     }
 
     /**
@@ -42,19 +42,19 @@ abstract class HandlerAbstract
      *
      * @return int
      */
-    public function getModuleId()
+    public function getBeappId()
     {
-        return $this->moduleId;
+        return $this->beappId;
     }
 
     /**
      * Set the BeApp Id number.
      *
-     * @param mixed $moduleId
+     * @param mixed $beappId
      */
-    public function setModuleId($moduleId)
+    public function setBeappId($beappId)
     {
-        $this->moduleId = intval($moduleId);
+        $this->beappId = intval($beappId);
     }
 
     /**
@@ -62,19 +62,19 @@ abstract class HandlerAbstract
      *
      * @return int
      */
-    public function getModuleVersion()
+    public function getBeappVersion()
     {
-        return $this->moduleVersion;
+        return $this->beappVersion;
     }
 
     /**
      * Set the BeApp version number.
      *
-     * @param int $moduleVersion
+     * @param int $beappVersion
      */
-    public function setModuleVersion($moduleVersion)
+    public function setBeappVersion($beappVersion)
     {
-        $this->moduleVersion = intval($moduleVersion);
+        $this->beappVersion = intval($beappVersion);
     }
 
     /**
@@ -82,18 +82,18 @@ abstract class HandlerAbstract
      *
      * @return string
      */
-    public function getModulePassword()
+    public function getBeappSecret()
     {
-        return $this->modulePassword;
+        return $this->beappSecret;
     }
 
     /**
      * Set the module auth secret.
      *
-     * @param string $modulePassword
+     * @param string $beappSecret
      */
-    public function setModulePassword($modulePassword)
+    public function setBeappSecret($beappSecret)
     {
-        $this->modulePassword = $modulePassword;
+        $this->beappSecret = $beappSecret;
     }
 }
