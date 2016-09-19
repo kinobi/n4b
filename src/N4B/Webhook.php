@@ -22,7 +22,7 @@ class Webhook extends HandlerAbstract
     {
         $options = array_merge([
             'authCheck' => true,
-            'debug'     => false,
+            'catchAll'     => true,
         ], $options);
 
         try {
@@ -49,11 +49,10 @@ class Webhook extends HandlerAbstract
         } catch (Error $e) {
             $this->sendResponse(['error' => $e->getMessage()]);
         } catch (Throwable $e) {
-            if (!(bool) $options['debug']) {
-                $this->sendResponse(['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR']);
-            } else {
+            if (!(bool) $options['catchAll']) {
                 throw $e;
             }
+            $this->sendResponse(['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR']);
         }
     }
 
