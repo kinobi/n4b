@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - This CHANGELOG file.
 
+### Changed
+- README updated
+
 ## 1.0.0 - 2016-09-19
 ### Added
 - First version of the N4B PHP Library
