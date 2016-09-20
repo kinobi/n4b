@@ -18,7 +18,7 @@ class Webhook extends HandlerAbstract
      * @internal param bool $authCheck
      * @internal param bool $debug
      */
-    public function run(array $options)
+    public function run(array $options = [])
     {
         $options = array_merge([
             'authCheck' => true,
