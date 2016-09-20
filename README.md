@@ -33,6 +33,22 @@ $n4b->add('myOperation', function($params, $transport, $userId) {
 $n4b->run();
 ```
 
+You may quickly test this using the built-in PHP server:
+```bash
+$ php -S localhost:8000
+```
+
+Then running the cURL POST request below will now return a well formated N4B response "{"params":["uppercaseString","THIS VERY INTERESTING TEXT WILL BE OUTPUT IN UPPERCASE"]}".
+
+```bash
+curl --request POST \
+  --url http://localhost:8000/ \
+  --header 'authorization: Basic bXliZWFwcF8xMzM3Ok1ZNVVQM3I1M0NyMzdLM1k=' \
+  --header 'cache-control: no-cache' \
+  --header 'content-type: application/json' \
+  --data '{"transport":"web","userId":"98e866b2-3d39-11e6-97dc-0cc47a77819c","moduleId":1337,"moduleName":"mybeapp","moduleVersion":1,"operation":"myOperation","params":{"someString":"this very interesting text will be output in uppercase"}}'
+```
+
 ## Documentation
 
 - [Webhook Instructions](doc/01-webhook.md)
