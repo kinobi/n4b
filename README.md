@@ -38,7 +38,9 @@ You may quickly test this using the built-in PHP server:
 $ php -S localhost:8000
 ```
 
-Then running the cURL POST request below will now return a well formated N4B response "{"params":["uppercaseString","THIS VERY INTERESTING TEXT WILL BE OUTPUT IN UPPERCASE"]}".
+Then running the cURL POST request below (or use the [Postman](https://www.getpostman.com) button) will now return a well formated N4B response "{"params":["uppercaseString","THIS VERY INTERESTING TEXT WILL BE OUTPUT IN UPPERCASE"]}".
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/02052ba017f0c817035e)
 
 ```bash
 curl --request POST \
