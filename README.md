@@ -26,7 +26,7 @@ require 'vendor/autoload.php';
 
 $n4b = new N4B\Webhook('mybeapp', 1337, 1, 'MY5UP3r53Cr37K3Y');
 
-$n4b->add('myOperation', function($params, $transport, $userId]) {
+$n4b->add('myOperation', function($params, $transport, $userId) {
 	return ['uppercaseString', strtoupper($params['someString'])];
 });
 
