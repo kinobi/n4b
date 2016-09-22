@@ -1,4 +1,7 @@
-# N4B PHP - Library for N4B Be-App PHP backend
+# N4B PHP Library
+
+Simple library  to quickly implement a N4B Be-App PHP backend
+
 [![Latest Stable Version](https://img.shields.io/packagist/v/n4b/n4b.svg)](https://packagist.org/packages/n4b/n4b)
 [![Build Status](https://img.shields.io/travis/kinobi/n4b/master.svg)](https://travis-ci.org/kinobi/n4b)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/5960a9bc-9e87-4429-a714-b2ee05c4feac.svg?maxAge=2592000)]()
@@ -6,10 +9,12 @@
 [![GitHub issues](https://img.shields.io/github/issues/kinobi/n4b.svg)](https://github.com/kinobi/n4b/issues)
 [![License](https://img.shields.io/packagist/l/n4b/n4b.svg)](https://packagist.org/packages/n4b/n4b)
 
-A simple library to quickly implement a N4B BeApp PHP backend
+## Why ?
 
+N4B PHP will allow you to concentrate your development only on your business domain. Authentication, 
+operations dispatching, N4B Errors, formatting of the responses are handled by the library.
 
-## What is N4B by Be-Bound ?
+### What is N4B by Be-Bound ?
 [Be-Bound's N4B platform](https://n4b.io) helps you develop Android applications with the possibility to **reach the Next 4 Billion** (N4B) users that are still not connected to the Internet. 
 By integrating [Be-Bound](https://www.be-bound.com)’s SDK into your Android apps, and implementing your Be-App Webhooks, **your users will stay connected to your apps even when there is no internet**.
 
