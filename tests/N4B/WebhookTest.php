@@ -11,7 +11,7 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanBeInstantiate()
     {
-        $n4b = $this->intantiateWebhook();
+        $n4b = $this->instantiateWebhook();
 
         $this->assertInstanceOf(Webhook::class, $n4b);
         $this->assertEquals($this->beAppName, $n4b->getBeappName());
@@ -22,7 +22,7 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanBeUpdated()
     {
-        $n4b = $this->intantiateWebhook();
+        $n4b = $this->instantiateWebhook();
         $newBeappName = 'testAppUpdated';
         $newBeappId = 42;
         $newBeappVersion = 2;
@@ -44,7 +44,7 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
     /**
      * @return Webhook
      */
-    private function intantiateWebhook()
+    private function instantiateWebhook()
     {
         $n4b = new Webhook($this->beAppName, $this->beAppId, $this->beAppVersion, $this->beAppSecret);
 
