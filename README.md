@@ -4,7 +4,7 @@ Simple library  to quickly implement a N4B Be-App PHP backend
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/n4b/n4b.svg)](https://packagist.org/packages/n4b/n4b)
 [![Build Status](https://img.shields.io/travis/kinobi/n4b/master.svg)](https://travis-ci.org/kinobi/n4b)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/5960a9bc-9e87-4429-a714-b2ee05c4feac.svg?maxAge=2592000)]()
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/5960a9bc-9e87-4429-a714-b2ee05c4feac.svg?maxAge=2592000)](https://insight.sensiolabs.com/projects/5960a9bc-9e87-4429-a714-b2ee05c4feac)
 [![Dependencies](https://img.shields.io/versioneye/d/user/projects/57e0c530bd6fa6004e11e634.svg)](https://www.versioneye.com/user/projects/57e0c530bd6fa6004e11e634?child=summary)
 [![GitHub issues](https://img.shields.io/github/issues/kinobi/n4b.svg)](https://github.com/kinobi/n4b/issues)
 [![License](https://img.shields.io/packagist/l/n4b/n4b.svg)](https://packagist.org/packages/n4b/n4b)
@@ -91,7 +91,7 @@ If you discover any security related issues, please email lbrianto@be-bound.com 
 
 
 ### Author
-Lionel Brianto - <lbrianto@be-bound.com> - <http://twitter.com/kinobiweb><br />
+Lionel Brianto - <lbrianto@be-bound.com> - <http://twitter.com/kinobiweb>
 <!--See also the list of [contributors](https://github.com/kinobi/n4b/contributors) which participated in this project.-->
 
 
