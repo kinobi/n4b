@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - This CHANGELOG file.
+- Webhook documentation.
+- Push documentation.
 
 ### Changed
 - README updated.

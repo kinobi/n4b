@@ -64,6 +64,8 @@ but it can be as well:
 
 More information in the PHP documentation: [Callbacks / Callables](http://php.net/manual/en/language.types.callable.php)
 
+Finally you can run the webhook using its `run` method. [More](#webhook-run-options) on this after.
+
 ## N4B Errors
 The Be-App Manifest allows you to define some **error codes** in your Be-App. 
 N4B PHP simplify the return of these error codes, you just need to throw a `N4B\Error`. The argument is an 
