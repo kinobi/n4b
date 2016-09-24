@@ -2,7 +2,6 @@
 
 namespace N4B;
 
-
 class PushTest extends \PHPUnit_Framework_TestCase
 {
     private $beAppName = 'testApp';
