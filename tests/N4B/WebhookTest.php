@@ -9,6 +9,17 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
     private $beAppVersion = 1;
     private $beAppSecret = 'Sup3rS3cr3tch41n';
 
+    protected function setUp()
+    {
+        stream_wrapper_unregister("php");
+        stream_wrapper_register("php", "N4B\\Mocks\\MockPhpStream");
+    }
+
+    protected function tearDown()
+    {
+        stream_wrapper_restore("php");
+    }
+
     public function testItCanBeInstantiate()
     {
         $n4b = $this->instantiateWebhook();
@@ -39,6 +50,17 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
 
         $n4b->setBeappSecret($newBeappSecret);
         $this->assertEquals($newBeappSecret, $n4b->getBeappSecret());
+    }
+
+    public function testItCanReturnErrorBB_ERROR_METHOD_NOT_FOUND()
+    {
+        $n4b = $this->instantiateWebhook();
+        $data = sprintf('{"transport":"web","userId":"id","moduleId":%s,"moduleName":"%s","moduleVersion":%s,"operation":"myOperation","params":{}}',
+            $this->beAppId, $this->beAppName, $this->beAppVersion);
+        file_put_contents('php://input', $data);
+
+        $response = $n4b->run(['authCheck' => false, 'getResponse' => true]);
+        $this->assertJsonStringEqualsJsonString('{"error":"BB_ERROR_METHOD_NOT_FOUND"}', $response);
     }
 
     /**
