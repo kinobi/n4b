@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Webhook run option to get the response as a string instead of sending it
+
+### Changed
+- N4B\Error simplified
+
+## [1.0.2] - 2016-09-23
+### Added
 - This CHANGELOG file.
 - Webhook documentation.
 - Push documentation.
@@ -21,5 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - First version of the N4B PHP Library.
 
-[Unreleased]: https://github.com/kinobi/n4b/compare/1.0.1...HEAD
+[Unreleased]: https://github.com/kinobi/n4b/compare/1.0.2...HEAD
+[1.0.2]: https://github.com/kinobi/n4b/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/kinobi/n4b/compare/1.0.0...1.0.1
