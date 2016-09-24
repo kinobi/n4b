@@ -97,8 +97,9 @@ The N4B PHP webhook `run` method can be configurated via an associative array of
 [...]
 
 $options = [
-	'authCheck' => true,
-    'catchAll'  => true
+    'authCheck' => true,
+    'catchAll'  => true,
+    'getResponse' => false
 ];
 
 $n4b->run($options);
@@ -108,5 +109,6 @@ The options are:
 only recommended in local development (default to `true`)
 - `catchAll` : a boolean to enable/disable the catching of all the handlers exceptions, 
 useful in development (default to `true`)
+- `getResponse` : a boolean to enable/disable the possibility to get the response as string (default to `false`)
 
 &rarr; [Push](02-push.md)

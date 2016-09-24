@@ -41,6 +41,93 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($newBeappSecret, $n4b->getBeappSecret());
     }
 
+    public function testItCanReturnErrorBB_ERROR_METHOD_NOT_FOUND()
+    {
+        $n4b = $this->instantiateWebhook();
+        $this->setRequestData();
+
+        $response = $n4b->run(['getResponse' => true]);
+        $this->assertJsonStringEqualsJsonString('{"error":"BB_ERROR_METHOD_NOT_FOUND"}', $response);
+    }
+
+    public function testItCanCatchForgottenExceptions()
+    {
+        $operationName = 'opWithException';
+        $n4b = $this->instantiateWebhook();
+        $n4b->add($operationName, function () {
+            throw new \RuntimeException('Forget to catch this one');
+        });
+
+        $this->setRequestData($operationName);
+        $response = $n4b->run(['getResponse' => true]);
+        $this->assertJsonStringEqualsJsonString('{"error":"BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR"}', $response);
+    }
+
+    public function testCatchAllOptionCanBeTurnedOff()
+    {
+        $this->expectException(\RuntimeException::class);
+        $operationName = 'opWithException';
+        $n4b = $this->instantiateWebhook();
+        $n4b->add($operationName, function () {
+            throw new \RuntimeException('Forget to catch this one');
+        });
+
+        $this->setRequestData($operationName);
+        $n4b->run(['catchAll' => false]);
+    }
+
+    public function testItcanCheckWrongBasicAuthorisation()
+    {
+        $n4b = $this->instantiateWebhook();
+        $n4b->setBeappSecret('changedSecret');
+        $response = $n4b->run(['getResponse' => true]);
+        $this->assertJsonStringEqualsJsonString('{"error":"BB_ERROR_AUTHORIZATION"}', $response);
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testItCanSendResponse()
+    {
+        $this->expectOutputString('{"params":{"yodaShout":"YOU MUST UNLEARN WHAT YOU HAVE LEARNED."}}');
+        $operation = 'shout';
+        $n4b = $this->instantiateWebhook();
+        $this->setRequestData($operation, ['yodaTalk' => 'you must unlearn what you have learned.']);
+
+        $n4b->add($operation, function ($params) {
+            return ['yodaShout' => strtoupper($params['yodaTalk'])];
+        });
+
+        $n4b->run(['getResponse' => false]);
+    }
+
+    public function testItCanRejectEmptyRequest()
+    {
+        $n4b = $this->instantiateWebhook();
+        file_put_contents('php://input', 'notAJsonString');
+        $response = $n4b->run(['getResponse' => true]);
+        $this->assertJsonStringEqualsJsonString('{"error":"BB_ERROR_REQUEST_REJECTED"}', $response);
+    }
+
+    public function testItCanIgnoreIrrelevantRequest()
+    {
+        $n4b = $this->instantiateWebhook();
+        $this->setRequestData('anyOperation', ['luke' => 'jedi'], 504, 'empireStrikesBack', 5);
+        $return = $n4b->run();
+        $this->assertNull($return);
+    }
+
+    protected function setUp()
+    {
+        stream_wrapper_unregister("php");
+        stream_wrapper_register("php", "N4B\\Mocks\\MockPhpStream");
+    }
+
+    protected function tearDown()
+    {
+        stream_wrapper_restore("php");
+    }
+
     /**
      * @return Webhook
      */
@@ -49,5 +136,20 @@ class WebhookTest extends \PHPUnit_Framework_TestCase
         $n4b = new Webhook($this->beAppName, $this->beAppId, $this->beAppVersion, $this->beAppSecret);
 
         return $n4b;
+    }
+
+    private function setRequestData(
+        $operationName = 'myOperation',
+        array $params = [],
+        $moduleId = null,
+        $moduleName = null,
+        $moduleVersion = null
+    ) {
+        $moduleId = $moduleId ?: $this->beAppId;
+        $moduleName = $moduleName ?: $this->beAppName;
+        $moduleVersion = $moduleVersion ?: $this->beAppVersion;
+        $data = sprintf('{"transport":"web","userId":"id","moduleId":%s,"moduleName":"%s","moduleVersion":%s,"operation":"%s","params":%s}',
+            $moduleId, $moduleName, $moduleVersion, $operationName, json_encode($params));
+        file_put_contents('php://input', $data);
     }
 }

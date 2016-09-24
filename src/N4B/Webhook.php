@@ -2,7 +2,7 @@
 
 namespace N4B;
 
-use Throwable;
+use Exception;
 
 class Webhook extends HandlerAbstract
 {
@@ -13,7 +13,8 @@ class Webhook extends HandlerAbstract
      *
      * @param array $options
      *
-     * @throws Throwable
+     * @return bool|string
+     * @throws Exception
      *
      * @internal param bool $authCheck
      * @internal param bool $debug
@@ -22,7 +23,8 @@ class Webhook extends HandlerAbstract
     {
         $options = array_merge([
             'authCheck' => true,
-            'catchAll'  => true,
+            'catchAll' => true,
+            'getResponse' => false,
         ], $options);
 
         try {
@@ -40,26 +42,26 @@ class Webhook extends HandlerAbstract
             }
 
             if (!array_key_exists($data['operation'], $this->operationsMap)) {
-                throw new \Exception('BB_ERROR_METHOD_NOT_FOUND');
+                throw new Error('BB_ERROR_METHOD_NOT_FOUND');
             }
 
             $out = $this->operationsMap[$data['operation']]((array) $data['params'], $data['transport'],
                 $data['userId']);
-            $this->sendResponse(['params' => $out]);
+            return $this->sendResponse(['params' => $out], $options['getResponse']);
         } catch (Error $e) {
-            $this->sendResponse(['error' => $e->getMessage()]);
-        } catch (Throwable $e) {
+            return $this->sendResponse(['error' => $e->getMessage()], $options['getResponse']);
+        } catch (Exception $e) {
             if (!(bool) $options['catchAll']) {
                 throw $e;
             }
-            $this->sendResponse(['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR']);
+            return $this->sendResponse(['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR'], $options['getResponse']);
         }
     }
 
     /**
      * Map a callable to an operation describes in the BeApp Manifest.
      *
-     * @param $operation
+     * @param          $operation
      * @param callable $handler
      */
     public function add($operation, callable $handler)
@@ -90,13 +92,19 @@ class Webhook extends HandlerAbstract
         return $data;
     }
 
-    private function sendResponse($out)
+    private function sendResponse($out, $getResponse = false)
     {
         $response = json_encode($out);
+
+        if ($getResponse) {
+            return $response;
+        }
+
         header('Content-Type: application/json');
         header('Cache-Control: no-cache, must-revalidate'); // No Cache: HTTP/1.1
         header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // No Cache: in the past
-        header('Content-Length: '.strlen($response));
+        header('Content-Length: ' . strlen($response));
         echo $response;
+        return true;
     }
 }
