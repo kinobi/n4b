@@ -5,11 +5,11 @@
 - [Webhook run options](#webhook-run-options)
 
 ## Concept
-The N4B Be-App webhook is the entrypoint of the N4B requests on your server. 
+The `N4B\Webhook` is the entrypoint of the N4B requests on your server. 
 You need to handle each operation described in your Be-App Manifest in the _server_operation_ block.
 
 ## Configuring a webhook
-This is an example of a N4B webhook with two operations handled:
+This is an example of a `N4B\Webhook` with two operations handled:
 ```php
 <?php
 
@@ -29,11 +29,11 @@ $n4b->add('myOtherOperation', function($params, $transport, $userId) {
 // You can now wait for incoming requests to handle
 $n4b->run();
 ```
-Let's explain it. The first step is to create the **webhook** instance. The arguments are the Be-App _name_, 
+Let's explain it. The first step is to create the `N4B\Webhook` instance. The arguments are the Be-App _name_, 
 _id_, _version_ and _secret key_.
 
 The second step consists in adding handlers for each _operation_ declare in the _server_operation_ block 
-of your Be-App Manifest. This task is done by the method `add` of the **webhook**. The arguments are 
+of your Be-App Manifest. This task is done by the method `add` of the `N4B\Webhook`. The arguments are 
 the _operation_ name and a `callable` as **handler**. 
 
 **The handler as to return an associative array of parameters as described in the Be-App Manifest.**
@@ -68,7 +68,7 @@ Finally you can run the webhook using its `run` method. [More](#webhook-run-opti
 
 ## N4B Errors
 The Be-App Manifest allows you to define some **error codes** in your Be-App. 
-N4B PHP simplify the return of these error codes, you just need to throw a `N4B\Error`. The argument is an 
+**N4B PHP** simplify the return of these error codes, you just need to throw a `N4B\Error`. The argument is an 
 error string defined in the Be-App Manifest. An example below:
 ```php
 <?php
@@ -90,7 +90,7 @@ $n4b->add('myOperation', function($params, $transport, $userId) {
 ```
 
 ## Webhook run options
-The N4B PHP webhook `run` method can be configurated via an associative array of options like below:
+The `N4B\Webhook` `run` method can be configurated via an associative array of options like below:
 ```php
 <?php
 
@@ -111,4 +111,4 @@ only recommended in local development (default to `true`)
 useful in development (default to `true`)
 - `getResponse` : a boolean to enable/disable the possibility to get the response as string (default to `false`)
 
-&rarr; [Push](02-push.md)
+[Push](02-push.md) &rarr;
