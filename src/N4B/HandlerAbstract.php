@@ -2,12 +2,21 @@
 
 namespace N4B;
 
-abstract class HandlerAbstract
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
+abstract class HandlerAbstract implements LoggerAwareInterface
 {
     protected $beappName;
     protected $beappId;
     protected $beappVersion;
     protected $beappSecret;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     public function __construct($beappName, $beappId, $beappVersion, $beappSecret)
     {
@@ -15,6 +24,7 @@ abstract class HandlerAbstract
         $this->setBeappId($beappId);
         $this->setBeappVersion($beappVersion);
         $this->setBeappSecret($beappSecret);
+        $this->setLogger(new NullLogger());
     }
 
     /**
@@ -95,5 +105,15 @@ abstract class HandlerAbstract
     public function setBeappSecret($beappSecret)
     {
         $this->beappSecret = $beappSecret;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     *
+     * @return null|void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 }
