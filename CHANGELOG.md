@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Adding PSR-3 Log capabilities
 
 ## [1.0.3] - 2016-09-24
 ### Added

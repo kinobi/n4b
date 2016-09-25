@@ -34,6 +34,7 @@ class Webhook extends HandlerAbstract
                 || $this->beappId != $data['moduleId']
                 || $this->beappVersion != $data['moduleVersion']
             ) {
+                $this->logger->notice('The request is not relevant for this webhook.');
                 return; // This request doesn't concern this handler
             }
 
@@ -42,6 +43,7 @@ class Webhook extends HandlerAbstract
             }
 
             if (!array_key_exists($data['operation'], $this->operationsMap)) {
+                $this->logger->error('No callable mapped to this operation', ['operationName' => $data['operation']]);
                 throw new Error('BB_ERROR_METHOD_NOT_FOUND');
             }
 
@@ -49,11 +51,15 @@ class Webhook extends HandlerAbstract
                 $data['userId']);
             return $this->sendResponse(['params' => $out], $options['getResponse']);
         } catch (Error $e) {
-            return $this->sendResponse(['error' => $e->getMessage()], $options['getResponse']);
+            $n4bError = ['error' => $e->getMessage()];
+            $this->logger->notice('Returning Be-App Error', $n4bError);
+            return $this->sendResponse($n4bError, $options['getResponse']);
         } catch (Exception $e) {
             if (!(bool) $options['catchAll']) {
                 throw $e;
             }
+            $this->logger->critical('Uncaught exception in the operation handler',
+                ['exception', $e, 'operation' => $data['operation']]);
             return $this->sendResponse(['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR'], $options['getResponse']);
         }
     }
@@ -66,6 +72,7 @@ class Webhook extends HandlerAbstract
      */
     public function add($operation, callable $handler)
     {
+        $this->logger->info('Operation handler added', ['operation' => $operation]);
         $this->operationsMap[$operation] = $handler;
     }
 
@@ -76,6 +83,7 @@ class Webhook extends HandlerAbstract
         if ($auth_usr != sprintf('%s_%s', $this->beappName,
                 $this->beappId) || $auth_pwd != $this->beappSecret
         ) {
+            $this->logger->error('Authentication of the request failed.');
             throw new Error('BB_ERROR_AUTHORIZATION');
         }
 
@@ -86,6 +94,7 @@ class Webhook extends HandlerAbstract
     {
         $data = json_decode(file_get_contents('php://input'), true);
         if (!$data) {
+            $this->logger->error('Empty request body.');
             throw new Error('BB_ERROR_REQUEST_REJECTED');
         }
 
@@ -97,9 +106,11 @@ class Webhook extends HandlerAbstract
         $response = json_encode($out);
 
         if ($getResponse) {
+            $this->logger->info('Returns string response.');
             return $response;
         }
 
+        $this->logger->info('Returns json HTTP response.');
         header('Content-Type: application/json');
         header('Cache-Control: no-cache, must-revalidate'); // No Cache: HTTP/1.1
         header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // No Cache: in the past

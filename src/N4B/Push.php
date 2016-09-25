@@ -32,12 +32,15 @@ class Push extends HandlerAbstract
         }
 
         if (!in_array($urgency, static::$n4bAvailableUrgencies)) {
-            throw new \OutOfRangeException('Push urgency not available');
+            $error = 'Push urgency not available';
+            $this->logger->critical($error, ['level' => $urgency]);
+            throw new \OutOfRangeException($error);
         }
 
         $context = $this->createContext($operation, $users, $params, $urgency);
         $url = $this->createUrl();
         $response = file_get_contents($url, false, $context);
+        $this->logger->info('Push message sent');
 
         return json_decode($response, true);
     }
