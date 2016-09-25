@@ -4,10 +4,10 @@ namespace N4B;
 
 class PushTest extends \PHPUnit_Framework_TestCase
 {
-    private $beAppName = 'testApp';
+    private $beAppName = 'testPush';
     private $beAppId = 13;
-    private $beAppVersion = 1;
-    private $beAppSecret = 'Sup3rS3cr3tch41n';
+    private $beAppVersion = 2;
+    private $beAppSecret = 'Sup3rS3cr3tch41n4Push';
 
     public function testItCanBeInstantiate()
     {
@@ -25,6 +25,28 @@ class PushTest extends \PHPUnit_Framework_TestCase
         $this->expectException(\OutOfRangeException::class);
         $n4bPush = $this->instantiatePush();
         $n4bPush->send('someNotification', 'userId1', [], rand(100, 200));
+    }
+
+    public function testItCanSendPushMessage()
+    {
+        $n4bPush = $this->instantiatePush();
+        $url = sprintf('https://web.be-bound.com/n4bp/%s_%s/%s', $this->beAppName, $this->beAppId, $this->beAppVersion);
+        file_put_contents($url, json_encode(['userId1' => 1]));
+
+        $response = $n4bPush->send('someNotification', 'userId1', [], Push::N4B_PUSH_URGENCY_BEBOUND_ONLY);
+
+        $this->assertArrayHasKey('userId1', $response);
+    }
+
+    protected function setUp()
+    {
+        stream_wrapper_unregister("https");
+        stream_wrapper_register("https", "N4B\\Mocks\\MockPhpStream");
+    }
+
+    protected function tearDown()
+    {
+        stream_wrapper_restore("https");
     }
 
     /**
