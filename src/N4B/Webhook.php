@@ -38,6 +38,8 @@ class Webhook extends HandlerAbstract
                 return; // This request doesn't concern this handler
             }
 
+            $this->logger->info(sprintf('Received operation %s', $data['operation']), ['params' => $data['params'], 'transport' => $data['transport'], 'userId' => $data['userId']]);
+
             if ((bool) $options['authCheck']) {
                 $this->checkAuth();
             }
@@ -72,7 +74,7 @@ class Webhook extends HandlerAbstract
      */
     public function add($operation, callable $handler)
     {
-        $this->logger->info('Operation handler added', ['operation' => $operation]);
+        $this->logger->debug('Operation handler added', ['operation' => $operation]);
         $this->operationsMap[$operation] = $handler;
     }
 
