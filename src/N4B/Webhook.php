@@ -35,15 +35,13 @@ class Webhook extends HandlerAbstract
                 || $this->beappVersion != $data['moduleVersion']
             ) {
                 $this->logger->notice('The request is not relevant for this webhook.');
-                return; // This request doesn't concern this handler
+                return null; // This request doesn't concern this handler
             }
 
             $this->logger->info(sprintf('Received operation %s', $data['operation']),
                 ['params' => $data['params'], 'transport' => $data['transport'], 'userId' => $data['userId']]);
 
-            if ((bool) $options['authCheck']) {
-                $this->checkAuth();
-            }
+            $this->checkAuth((bool) $options['authCheck']);
 
             if (!array_key_exists($data['operation'], $this->operationsMap)) {
                 $this->logger->error('No callable mapped to this operation', ['operationName' => $data['operation']]);
@@ -53,21 +51,20 @@ class Webhook extends HandlerAbstract
             $out = $this->operationsMap[$data['operation']]((array) $data['params'], $data['transport'],
                 $data['userId']);
             $n4bResponse = ['params' => $out];
-            return (bool) $options['getResponse'] ? $this->getResponse($n4bResponse) : $this->sendResponse($n4bResponse);
         } catch (Error $e) {
-            $n4bError = ['error' => $e->getMessage()];
-            $this->logger->notice('Returning Be-App Error', $n4bError);
-            return (bool) $options['getResponse'] ? $this->getResponse($n4bError) : $this->sendResponse($n4bError);
+            $n4bResponse = ['error' => $e->getMessage()];
+            $this->logger->notice('Returning Be-App Error', $n4bResponse);
         } catch (Exception $e) {
             if (!(bool) $options['catchAll']) {
                 throw $e;
             }
+
             $this->logger->critical('Uncaught exception in the operation handler',
                 ['exception', $e, 'operation' => $data['operation']]);
-
-            $n4bError = ['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR'];
-            return (bool) $options['getResponse'] ? $this->getResponse($n4bError) : $this->sendResponse($n4bError);
+            $n4bResponse = ['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR'];
         }
+
+        return (bool) $options['getResponse'] ? $this->getResponse($n4bResponse) : $this->sendResponse($n4bResponse);
     }
 
     /**
@@ -82,12 +79,16 @@ class Webhook extends HandlerAbstract
         $this->operationsMap[$operation] = $handler;
     }
 
-    private function checkAuth()
+    private function checkAuth($checkFlag)
     {
-        $auth_usr = isset($_SERVER ['PHP_AUTH_USER']) ? $_SERVER ['PHP_AUTH_USER'] : null;
-        $auth_pwd = isset($_SERVER ['PHP_AUTH_PW']) ? $_SERVER ['PHP_AUTH_PW'] : null;
-        if ($auth_usr != sprintf('%s_%s', $this->beappName,
-                $this->beappId) || $auth_pwd != $this->beappSecret
+        if (!$checkFlag) {
+            return true;
+        }
+
+        $authUser = isset($_SERVER ['PHP_AUTH_USER']) ? filter_var($_SERVER ['PHP_AUTH_USER']) : null;
+        $authPassword = isset($_SERVER ['PHP_AUTH_PW']) ? filter_var($_SERVER ['PHP_AUTH_PW']) : null;
+        if ($authUser != sprintf('%s_%s', $this->beappName,
+                $this->beappId) || $authPassword != $this->beappSecret
         ) {
             $this->logger->error('Authentication of the request failed.');
             throw new Error('BB_ERROR_AUTHORIZATION');
