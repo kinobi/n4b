@@ -38,7 +38,8 @@ class Webhook extends HandlerAbstract
                 return; // This request doesn't concern this handler
             }
 
-            $this->logger->info(sprintf('Received operation %s', $data['operation']), ['params' => $data['params'], 'transport' => $data['transport'], 'userId' => $data['userId']]);
+            $this->logger->info(sprintf('Received operation %s', $data['operation']),
+                ['params' => $data['params'], 'transport' => $data['transport'], 'userId' => $data['userId']]);
 
             if ((bool) $options['authCheck']) {
                 $this->checkAuth();
@@ -51,18 +52,21 @@ class Webhook extends HandlerAbstract
 
             $out = $this->operationsMap[$data['operation']]((array) $data['params'], $data['transport'],
                 $data['userId']);
-            return $this->sendResponse(['params' => $out], $options['getResponse']);
+            $n4bResponse = ['params' => $out];
+            return (bool) $options['getResponse'] ? $this->getResponse($n4bResponse) : $this->sendResponse($n4bResponse);
         } catch (Error $e) {
             $n4bError = ['error' => $e->getMessage()];
             $this->logger->notice('Returning Be-App Error', $n4bError);
-            return $this->sendResponse($n4bError, $options['getResponse']);
+            return (bool) $options['getResponse'] ? $this->getResponse($n4bError) : $this->sendResponse($n4bError);
         } catch (Exception $e) {
             if (!(bool) $options['catchAll']) {
                 throw $e;
             }
             $this->logger->critical('Uncaught exception in the operation handler',
                 ['exception', $e, 'operation' => $data['operation']]);
-            return $this->sendResponse(['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR'], $options['getResponse']);
+
+            $n4bError = ['error' => 'BB_ERROR_UNKNOWN_USER_SPECIFIED_ERROR'];
+            return (bool) $options['getResponse'] ? $this->getResponse($n4bError) : $this->sendResponse($n4bError);
         }
     }
 
@@ -103,14 +107,9 @@ class Webhook extends HandlerAbstract
         return $data;
     }
 
-    private function sendResponse($out, $getResponse = false)
+    private function sendResponse($out)
     {
         $response = json_encode($out);
-
-        if ($getResponse) {
-            $this->logger->info('Returns string response.');
-            return $response;
-        }
 
         $this->logger->info('Returns json HTTP response.');
         header('Content-Type: application/json');
@@ -119,5 +118,11 @@ class Webhook extends HandlerAbstract
         header('Content-Length: ' . strlen($response));
         echo $response;
         return true;
+    }
+
+    private function getResponse($out)
+    {
+        $this->logger->info('Returns string response.');
+        return json_encode($out);
     }
 }

@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- N4B\Webhook Refactoring the flag getResponse
 
 ## [1.1.1] - 2016-09-25
 ### Changed
