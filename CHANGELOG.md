@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Changed
 - N4B\Webhook Refactoring
+- N4B\Push Refactoring
 
 ## [1.1.1] - 2016-09-25
 ### Changed

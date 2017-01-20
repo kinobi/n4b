@@ -9,7 +9,7 @@ class Push extends HandlerAbstract
     const N4B_PUSH_URGENCY_HIGH = 2;
     const N4B_PUSH_URGENCY_DATA_ONLY = 5;
 
-    protected static $n4bAvailableUrgencies = [
+    protected static $availableUrgencies = [
         self::N4B_PUSH_URGENCY_BEBOUND_ONLY,
         self::N4B_PUSH_URGENCY_HIGH,
         self::N4B_PUSH_URGENCY_DATA_ONLY,
@@ -31,7 +31,7 @@ class Push extends HandlerAbstract
             $users = (array) $users;
         }
 
-        if (!in_array($urgency, static::$n4bAvailableUrgencies)) {
+        if (!in_array($urgency, static::$availableUrgencies)) {
             $error = 'Push urgency not available';
             $this->logger->critical($error, ['level' => $urgency]);
             throw new \OutOfRangeException($error);
