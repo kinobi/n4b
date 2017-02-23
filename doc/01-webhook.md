@@ -20,10 +20,10 @@ $n4b = new Webhook('mybeapp', 1337, 1, 'MY5UP3r53Cr37K3Y');
 
 // Now add some operations handlers
 $n4b->add('myOperation', function($params, $transport, $userId) {
-	return ['uppercaseString', strtoupper($params['someString'])];
+	return ['uppercaseString' => strtoupper($params['someString'])];
 });
 $n4b->add('myOtherOperation', function($params, $transport, $userId) {
-	return ['add', $params['foo'] + $params['bar']];
+	return ['add' => $params['foo'] + $params['bar']];
 });
 
 // You can now wait for incoming requests to handle
@@ -83,7 +83,7 @@ $n4b->add('myOperation', function($params, $transport, $userId) {
 	if(empty($params['someString'])) {
 		throw new Error("Err_emptyString");
 	}
-	return ['uppercaseString', strtoupper($params['someString'])];
+	return ['uppercaseString' => strtoupper($params['someString'])];
 });
 
 [...]
