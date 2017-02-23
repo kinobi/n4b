@@ -13,3 +13,6 @@ matrix:
 
 install:
    - composer install
+
+script:
+  - vendor/bin/phpunit --configuration phpunit.xml.dist
