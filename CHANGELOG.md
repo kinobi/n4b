@@ -5,9 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.1.2] - 2017-02-23
 ### Changed
 - N4B\Webhook Refactoring
 - N4B\Push Refactoring
+
+### Fixed
+- Fix misleading typos in documentation.
 
 ## [1.1.1] - 2016-09-25
 ### Changed
@@ -41,7 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - First version of the N4B PHP Library.
 
-[Unreleased]: https://github.com/kinobi/n4b/compare/1.1.1...HEAD
+[Unreleased]: https://github.com/kinobi/n4b/compare/1.1.2...HEAD
+[1.1.2]: https://github.com/kinobi/n4b/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/kinobi/n4b/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/kinobi/n4b/compare/1.0.3...1.1.0
 [1.0.3]: https://github.com/kinobi/n4b/compare/1.0.2...1.0.3
